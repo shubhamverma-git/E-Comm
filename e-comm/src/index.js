@@ -13,6 +13,7 @@ import Home from "./Components/Home/Home";
 import About from "./Components/About/About";
 import Contact from "./Components/Contact/Contact";
 import User from "./Components/User/User";
+import Github, { githubLoader } from "./Components/Github/Github";
 
 // 1st Method to create Router
 
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
       <Route path="contact" element={<Contact />} />
       <Route path="user/:userId" element={<User />} />
       {/* it is used to send value through params */}
+      <Route loader={githubLoader} path="github" element={<Github />} />
     </Route>
   )
 );
