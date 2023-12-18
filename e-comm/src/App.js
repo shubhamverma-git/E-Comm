@@ -1,71 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import { TodoProvider } from "./contexts";
-import TodoForm from "./Components/Todo/TodoForm";
-import TodoItem from "./Components/Todo/TodoItem";
+import AddTodo from "./Components/AddTodo";
+import Todos from "./Components/Todos";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 function App() {
-  // context functionality
-  const [todos, setTodos] = useState([]);
-
-  const addTodo = (todo) => {
-    setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev]);
-  };
-  const updateTodo = (id, todo) => {
-    setTodos((prev) =>
-      prev.map((prevTodo) => (prevTodo.id === id ? todo : prevTodo))
-    );
-  };
-  const deleteTodo = (id) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id));
-  };
-  const toggleComplete = (id) => {
-    setTodos((prev) =>
-      prev.map((prevTodo) =>
-        prevTodo === id
-          ? { ...prevTodo, completed: !prevTodo.completed }
-          : prevTodo
-      )
-    );
-  };
-
-  // local storage functionality
-  useEffect(() => {
-    const todos = JSON.parse(localStorage.getItem("todos")); // get value
-    if (todos && todos.length > 0) {
-      setTodos(todos);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
+  // const [count, setCount] = useState(0);
   return (
-    <TodoProvider
-      value={{ todos, addTodo, updateTodo, deleteTodo, toggleComplete }}
-    >
-      <div className="App">
-        <div className="bg-[#172842] min-h-screen py-8">
-          <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
-            <h1 className="text-2xl font-bold text-center mb-8 mt-2">
-              Manage Your Todos
-            </h1>
-            <div className="mb-4">
-              <TodoForm />
-            </div>
-            <div className="flex flex-wrap gap-y-3">
-              {/* Loop and Todo Item here */}
-              {todos.map((todo) => (
-                <div key={todo.id} className="w-full">
-                  <TodoItem todo={todo} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </TodoProvider>
+    <Provider store={store}>
+      <h1 className="text-center">Learn about Redux Toolkit</h1>
+      <AddTodo />
+      <Todos />
+
+      {/* Steps for RTK implementation as follows :
+
+      1. Create Store and there is only one Store for the whole Application.
+      2. Create Slice and to create Slice we need three things name, initial state and list of all reducers. 
+      Reducers accepts object of key and functions, In functions we get access of 'State' and 'Action'. 
+      In State we get updated state value in the Store whereas in action we get action.payload
+      3. Now we have to export these function and for that we have to make 2 statement first to export statement of reducer individually and 
+      second statement main source of all the reducers.  (see: store.js) 
+      4. To send the value we have useDispatch method. (see: addTodo.js) 
+      5. To get the value we have useSelector method. (see: todos.js)                                
+      */}
+    </Provider>
   );
 }
 
