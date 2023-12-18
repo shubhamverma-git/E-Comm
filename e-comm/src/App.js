@@ -17,7 +17,7 @@ function App() {
 
       1. Create Store and there is only one Store for the whole Application.
       2. Create Slice and to create Slice we need three things name, initial state and list of all reducers. 
-      Reducers accepts object of key and functions, In functions we get access of 'State' and 'Action'. 
+      Reducers accepts object of key and functions, In functions we get access of 'State' and 'Action'. (see: todoSlice.js) 
       In State we get updated state value in the Store whereas in action we get action.payload
       3. Now we have to export these function and for that we have to make 2 statement first to export statement of reducer individually and 
       second statement main source of all the reducers.  (see: store.js) 
